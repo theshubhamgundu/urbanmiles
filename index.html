@@ -107,41 +107,59 @@ body{
 }
 /* NO overlay as requested */
 .hero-body{
-  position:absolute;bottom:36px;left:20px;right:20px;
+  position:absolute;top:50%;left:20px;right:20px;
+  transform:translateY(-50%);
   z-index:10;
   display:flex;flex-direction:column;align-items:center;text-align:center;
 }
 .eyebrow{
   font-family:'Barlow Condensed',sans-serif;
-  font-size:10px;font-weight:700;
-  letter-spacing:1.5px;color:rgba(255,255,255,.9);
-  text-transform:uppercase;margin-bottom:10px;
-  text-shadow:0 1px 8px rgba(0,0,0,.9);
+  font-size:13px;font-weight:700;
+  letter-spacing:4px;color:rgba(255,255,255,.9);
+  text-transform:uppercase;margin-bottom:18px;
+  text-shadow:0 2px 12px rgba(0,0,0,.9);
 }
 .eyebrow span{margin:0 4px}
 .h1{
   font-family:'Barlow Condensed',sans-serif;
   font-weight:900;
-  font-size:clamp(40px,10vw,90px);
-  line-height:.9;text-transform:uppercase;color:#fff;
-  text-shadow:0 2px 24px rgba(0,0,0,.75);
-  margin-bottom:18px;
+  font-size:clamp(72px,22vw,140px);
+  line-height:.85;text-transform:uppercase;color:#fff;
+  text-shadow:0 4px 32px rgba(0,0,0,.8);
+  margin-bottom:28px;
 }
 .h1 .ac{color:var(--lime)}
-.cta-row{display:flex;flex-direction:column;align-items:center;gap:14px}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:18px}
 .tagline{
-  font-size:13px;font-style:italic;
+  font-size:16px;font-style:italic;
   color:rgba(255,255,255,.9);
-  text-shadow:0 1px 8px rgba(0,0,0,.9);
+  text-shadow:0 2px 12px rgba(0,0,0,.9);
 }
 .btn-l{
   display:inline-block;background:var(--lime);color:#000;
   font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:13px;letter-spacing:2px;text-transform:uppercase;
-  padding:14px 28px;text-decoration:none;
+  font-size:15px;letter-spacing:2px;text-transform:uppercase;
+  padding:18px 40px;text-decoration:none;
   -webkit-tap-highlight-color:transparent;transition:background .2s;
 }
+.m-br{display:block}
 .btn-l:active{background:#b5d83a}
+
+.scroll-ind{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:10;display:flex;flex-direction:column;align-items:center;
+  animation:bounce 2s infinite;opacity:.8;
+}
+.scroll-ind .arr{
+  width:14px;height:14px;
+  border-right:2px solid #fff;border-bottom:2px solid #fff;
+  transform:rotate(45deg);
+}
+@keyframes bounce{
+  0%,20%,50%,80%,100%{transform:translate(-50%,0)}
+  40%{transform:translate(-50%,-10px)}
+  60%{transform:translate(-50%,-5px)}
+}
 
 /* ═══════════════════════════════════
    PARTNER
@@ -449,8 +467,9 @@ footer{width:100%;background:var(--black);border-top:1px solid #1e1e1e}
    TABLET  ≥640px
 ═══════════════════════════════════ */
 @media(min-width:640px){
-  .hero-body{left:40px;right:40px;bottom:52px;align-items:flex-start;text-align:left}
+  .hero-body{top:auto;transform:none;left:40px;right:40px;bottom:52px;align-items:flex-start;text-align:left}
   .cta-row{align-items:flex-start}
+  .m-br{display:none}
   #partner{flex-direction:row;justify-content:space-between;padding:36px 40px}
   .about-body{padding:56px 40px}
   #how{padding:56px 40px}
@@ -590,12 +609,13 @@ footer{width:100%;background:var(--black);border-top:1px solid #1e1e1e}
     </video>
     <div class="hero-body">
       <div class="eyebrow">HYDERABAD <span>·</span> EST. 2026 <span>·</span> EVERY SUNDAY 6AM</div>
-      <div class="h1">SWEAT. <span class="ac">SMILE.</span><br>SOCIALIZE.</div>
+      <div class="h1">SWEAT.<br class="m-br"><span class="ac">SMILE.</span><br>SOCIALIZE.</div>
       <div class="cta-row">
         <div class="tagline">It starts with a run. It becomes an experience.</div>
         <a href="#events" class="btn-l">REGISTER NOW</a>
       </div>
     </div>
+    <div class="scroll-ind"><div class="arr"></div></div>
   </section>
 
   <!-- COFFEE PARTNER -->
