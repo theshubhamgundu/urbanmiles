@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Miles — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --lime: #c8f046; --black: #0a0a0a; --dark: #111; --card: #161616; --muted: #888; --border: #1e1e1e; }
+
+    body { font-family: 'Barlow', sans-serif; background: var(--black); color: #fff; min-height: 100vh; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .topbar-left img { height: 28px; filter: brightness(0) invert(1); }
+    .topbar-badge {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--lime);
+      background: rgba(200,240,70,.08); border: 1px solid rgba(200,240,70,.15);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .btn-refresh {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 16px;
+      cursor: pointer; border-radius: 6px; transition: all .2s; display: flex; align-items: center; gap: 6px;
+    }
+    .btn-refresh:hover { border-color: var(--lime); color: var(--lime); }
+    .btn-refresh.spinning svg { animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-back {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 16px;
+      cursor: pointer; border-radius: 6px; text-decoration: none; transition: all .2s;
+    }
+    .btn-back:hover { border-color: #fff; color: #fff; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; }
+
+    /* ── STATS ── */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+      position: relative; overflow: hidden;
+    }
+    .stat-card .sc-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    }
+    .stat-card .sc-value {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; color: #fff;
+    }
+    .stat-card .sc-value.lime { color: var(--lime); }
+    .stat-card .sc-bg {
+      position: absolute; right: -4px; bottom: -8px;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 72px;
+      color: rgba(255,255,255,.03); line-height: 1; user-select: none;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1; min-width: 200px; background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; font-family: 'Barlow', sans-serif; font-size: 14px;
+      color: #fff; outline: none; transition: border-color .2s;
+    }
+    .search-box:focus { border-color: var(--lime); }
+    .search-box::placeholder { color: rgba(255,255,255,.25); }
+    .toolbar-info {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 1px; color: var(--muted); text-transform: uppercase; white-space: nowrap;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    thead th {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+      padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.3); white-space: nowrap; position: sticky; top: 0;
+    }
+    tbody td {
+      padding: 12px 16px; font-size: 13px; color: rgba(255,255,255,.8);
+      border-bottom: 1px solid rgba(255,255,255,.03); vertical-align: top;
+    }
+    tbody tr { transition: background .15s; }
+    tbody tr:hover { background: rgba(200,240,70,.03); }
+    tbody tr:last-child td { border-bottom: none; }
+    td.mono {
+      font-family: 'Courier New', monospace; font-size: 12px; color: var(--lime); letter-spacing: .5px;
+    }
+    td.muted-val { color: rgba(255,255,255,.4); font-size: 12px; }
+    .row-num {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px;
+      color: rgba(255,255,255,.15); min-width: 30px;
+    }
+    .screenshot-link {
+      color: var(--lime); text-decoration: none; font-size: 12px;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; transition: opacity .2s;
+    }
+    .screenshot-link:hover { opacity: .7; }
+
+    /* ── STATES ── */
+    .state-msg {
+      text-align: center; padding: 60px 20px;
+    }
+    .state-msg .sm-icon { font-size: 48px; margin-bottom: 14px; opacity: .4; }
+    .state-msg .sm-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px;
+      text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.5); margin-bottom: 6px;
+    }
+    .state-msg .sm-text { font-size: 13px; color: rgba(255,255,255,.3); line-height: 1.6; }
+    .state-msg.error .sm-title { color: #e53e3e; }
+
+    .loader {
+      display: flex; align-items: center; justify-content: center; gap: 8px; padding: 60px 20px;
+    }
+    .loader .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--lime);
+      animation: ldot 1.2s ease-in-out infinite;
+    }
+    .loader .dot:nth-child(2) { animation-delay: .15s; }
+    .loader .dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes ldot {
+      0%, 80%, 100% { transform: scale(.4); opacity: .3; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    .last-updated {
+      text-align: center; padding: 16px; font-size: 11px; color: rgba(255,255,255,.2);
+      font-family: 'Barlow Condensed', sans-serif; letter-spacing: 1px;
+    }
+
+    /* ── SETUP GUIDE ── */
+    .setup-box {
+      background: var(--card); border: 1px solid rgba(229,62,62,.2); border-radius: 12px;
+      padding: 28px; margin-bottom: 28px;
+    }
+    .setup-box .sb-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px;
+      text-transform: uppercase; letter-spacing: 1px; color: #e53e3e; margin-bottom: 12px;
+    }
+    .setup-box p { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.7; margin-bottom: 10px; }
+    .setup-box code {
+      display: block; background: rgba(0,0,0,.4); border: 1px solid var(--border);
+      border-radius: 6px; padding: 14px; font-size: 12px; color: var(--lime);
+      white-space: pre-wrap; word-break: break-all; line-height: 1.6; margin: 10px 0;
+      max-height: 300px; overflow-y: auto;
+    }
+
+    /* ── IMAGE MODAL ── */
+    .img-modal {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.85); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px; cursor: pointer;
+    }
+    .img-modal.on { display: flex; }
+    .img-modal img { max-width: 90vw; max-height: 85vh; border-radius: 10px; border: 1px solid var(--border); }
+
+    @media(max-width:640px) {
+      .topbar { padding: 12px 16px; }
+      .main { padding: 20px 14px 40px; }
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-card { padding: 16px; }
+      .stat-card .sc-value { font-size: 28px; }
+      .btn-back span { display: none; }
+    }
+
+    /* ── LOGIN GATE ── */
+    .login-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .login-overlay.hidden { display: none; }
+    .login-card {
+      width: 100%; max-width: 380px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 40px 32px; text-align: center;
+      animation: receiptIn .4s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes receiptIn {
+      from { opacity: 0; transform: translateY(16px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .login-card img { height: 32px; filter: brightness(0) invert(1); margin-bottom: 24px; }
+    .login-card .lc-badge {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--lime);
+      background: rgba(200,240,70,.08); border: 1px solid rgba(200,240,70,.15);
+      padding: 4px 12px; border-radius: 4px; margin-bottom: 24px;
+    }
+    .login-card .lc-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px;
+      text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-bottom: 6px;
+    }
+    .login-card .lc-sub {
+      font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 28px;
+    }
+    .login-input {
+      width: 100%; background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px; font-family: 'Barlow', sans-serif;
+      font-size: 15px; color: #fff; outline: none; text-align: center;
+      letter-spacing: 2px; transition: border-color .2s;
+    }
+    .login-input:focus { border-color: var(--lime); }
+    .login-input::placeholder { color: rgba(255,255,255,.2); letter-spacing: 1px; }
+    .login-btn {
+      width: 100%; margin-top: 14px; background: var(--lime); color: #000;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px;
+      letter-spacing: 2.5px; text-transform: uppercase; padding: 15px;
+      border: none; border-radius: 8px; cursor: pointer; transition: background .2s;
+    }
+    .login-btn:hover { background: #b5d83a; }
+    .login-btn:active { transform: scale(.98); }
+    .login-error {
+      margin-top: 12px; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #e53e3e; min-height: 18px;
+    }
+    .admin-content { display: none; }
+    .admin-content.authed { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN GATE -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png" alt="Urban Miles">
+      <div class="lc-badge">ADMIN PANEL</div>
+      <div class="lc-title">ENTER PASSWORD</div>
+      <div class="lc-sub">Authorized access only</div>
+      <form id="loginForm" onsubmit="return handleLogin(event)">
+        <input type="password" class="login-input" id="loginPass" placeholder="••••••••" autocomplete="off" autofocus>
+        <button type="submit" class="login-btn">UNLOCK</button>
+      </form>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN CONTENT (hidden until login) -->
+  <div class="admin-content" id="adminContent">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png" alt="Urban Miles">
+      <div class="topbar-badge">ADMIN</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-refresh" id="refreshBtn" onclick="loadData()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        REFRESH
+      </button>
+      <button class="btn-back" onclick="logout()">🔒 <span>LOGOUT</span></button>
+      <a href="index.html" class="btn-back">← <span>SITE</span></a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- SETUP WARNING (shown if script not configured) -->
+    <div class="setup-box" id="setupBox" style="display:none">
+      <div class="sb-title">⚠ APPS SCRIPT UPDATE REQUIRED</div>
+      <p>Your Google Apps Script needs a <strong>doGet</strong> update to serve registration data. Open your Apps Script editor and <strong>replace</strong> or <strong>add</strong> this <code>doGet</code> function:</p>
+      <code id="scriptCode"></code>
+      <p>After pasting, click <strong>Deploy → New deployment</strong> (or update existing) and use the new URL below.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats" id="statsRow">
+      <div class="stat-card">
+        <div class="sc-label">TOTAL REGISTRATIONS</div>
+        <div class="sc-value lime" id="statTotal">—</div>
+        <div class="sc-bg">📋</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">TODAY</div>
+        <div class="sc-value" id="statToday">—</div>
+        <div class="sc-bg">📅</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">WITH PAYMENT</div>
+        <div class="sc-value" id="statPaid">—</div>
+        <div class="sc-bg">💰</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">WITH FEEDBACK</div>
+        <div class="sc-value" id="statFeedback">—</div>
+        <div class="sc-bg">💬</div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <input type="text" class="search-box" id="searchBox" placeholder="Search by name, phone, email, UTR...">
+      <div class="toolbar-info" id="filterInfo">—</div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap" id="tableWrap">
+      <div class="loader" id="loader">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+    <div class="last-updated" id="lastUpdated"></div>
+  </div>
+
+  </div><!-- /admin-content -->
+
+  <!-- IMAGE MODAL -->
+  <div class="img-modal" id="imgModal" onclick="this.classList.remove('on')">
+    <img id="modalImg" alt="Screenshot">
+  </div>
+
+  <script>
+    // ══════════════════════════════════════
+    //  CONFIG — Same URL as your form
+    // ══════════════════════════════════════
+    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFyY-4H3J01hSEZhqyj7L8aQxa8aUwfCRzAXxZc5Kwanfszg_FWEJQpIc44jR5-d7_/exec';
+
+    var allRows = [];
+    var lastFetch = null;
+
+    // Show the doGet code the user needs
+    var scriptSnippet = `function doGet(e) {
+  var action = (e && e.parameter && e.parameter.action) || '';
+
+  if (action === 'list') {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Registrations') || ss.getSheets()[0];
+    var data = sheet.getDataRange().getValues();
+    if (data.length < 2) {
+      return ContentService.createTextOutput(JSON.stringify({ status: 'ok', rows: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var headers = data[0];
+    var rows = [];
+    for (var i = 1; i < data.length; i++) {
+      var obj = {};
+      for (var j = 0; j < headers.length; j++) {
+        obj[headers[j]] = data[i][j] || '';
+      }
+      rows.push(obj);
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: 'ok', rows: rows }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+    document.getElementById('scriptCode').textContent = scriptSnippet;
+
+    // ── Load Data ──
+    async function loadData() {
+      var btn = document.getElementById('refreshBtn');
+      btn.classList.add('spinning');
+      document.getElementById('tableWrap').innerHTML = '<div class="loader" id="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+
+      try {
+        var res = await fetch(SCRIPT_URL + '?action=list');
+        var json = await res.json();
+
+        if (!json.rows) {
+          // Script not updated yet
+          document.getElementById('setupBox').style.display = 'block';
+          document.getElementById('tableWrap').innerHTML = '<div class="state-msg"><div class="sm-icon">🔧</div><div class="sm-title">SCRIPT NOT CONFIGURED</div><div class="sm-text">Update your Apps Script with the doGet code shown above,<br>then redeploy and refresh this page.</div></div>';
+          updateStats([]);
+          return;
+        }
+
+        document.getElementById('setupBox').style.display = 'none';
+        allRows = json.rows.reverse(); // newest first
+        lastFetch = new Date();
+        updateStats(allRows);
+        renderTable(allRows);
+        document.getElementById('lastUpdated').textContent = 'Last updated: ' + lastFetch.toLocaleString('en-IN');
+
+      } catch (err) {
+        document.getElementById('setupBox').style.display = 'block';
+        document.getElementById('tableWrap').innerHTML = '<div class="state-msg error"><div class="sm-icon">⚠️</div><div class="sm-title">FAILED TO LOAD</div><div class="sm-text">Could not reach the Apps Script endpoint.<br>Make sure your doGet is deployed and returns JSON with CORS.</div></div>';
+      } finally {
+        btn.classList.remove('spinning');
+      }
+    }
+
+    // ── Stats ──
+    function updateStats(rows) {
+      document.getElementById('statTotal').textContent = rows.length;
+      var todayStr = new Date().toDateString();
+      var today = rows.filter(function(r) {
+        var ts = r['Timestamp'] || r['timestamp'] || '';
+        if (!ts) return false;
+        try { return new Date(ts).toDateString() === todayStr; } catch(e) { return false; }
+      });
+      document.getElementById('statToday').textContent = today.length;
+
+      var paid = rows.filter(function(r) {
+        return (r['UTR'] || r['utr'] || '').toString().trim().length > 0;
+      });
+      document.getElementById('statPaid').textContent = paid.length;
+
+      var fb = rows.filter(function(r) {
+        return (r['Feedback'] || r['feedback'] || '').toString().trim().length > 0;
+      });
+      document.getElementById('statFeedback').textContent = fb.length;
+    }
+
+    // ── Render Table ──
+    function renderTable(rows) {
+      if (rows.length === 0) {
+        document.getElementById('tableWrap').innerHTML = '<div class="state-msg"><div class="sm-icon">📭</div><div class="sm-title">NO REGISTRATIONS YET</div><div class="sm-text">Registrations will appear here once people sign up.</div></div>';
+        document.getElementById('filterInfo').textContent = '0 results';
+        return;
+      }
+
+      // Detect columns
+      var keys = Object.keys(rows[0]);
+      var nameK = keys.find(function(k){ return /name/i.test(k); }) || keys[0];
+      var phoneK = keys.find(function(k){ return /phone/i.test(k); }) || keys[1];
+      var emailK = keys.find(function(k){ return /email/i.test(k); }) || keys[2];
+      var utrK = keys.find(function(k){ return /utr/i.test(k); }) || keys[3];
+      var feedK = keys.find(function(k){ return /feedback/i.test(k); });
+      var tsK = keys.find(function(k){ return /time|date|stamp/i.test(k); });
+      var fileK = keys.find(function(k){ return /file|screenshot|image|url/i.test(k); });
+
+      var html = '<table><thead><tr>';
+      html += '<th>#</th><th>NAME</th><th>PHONE</th><th>EMAIL</th><th>UTR</th>';
+      if (feedK) html += '<th>FEEDBACK</th>';
+      if (tsK) html += '<th>TIME</th>';
+      if (fileK) html += '<th>PROOF</th>';
+      html += '</tr></thead><tbody>';
+
+      rows.forEach(function(r, i) {
+        html += '<tr>';
+        html += '<td class="row-num">' + (i + 1) + '</td>';
+        html += '<td>' + esc(r[nameK]) + '</td>';
+        html += '<td>' + esc(r[phoneK]) + '</td>';
+        html += '<td class="muted-val">' + esc(r[emailK]) + '</td>';
+        html += '<td class="mono">' + esc(r[utrK]) + '</td>';
+        if (feedK) html += '<td class="muted-val">' + esc(r[feedK] || '—') + '</td>';
+        if (tsK) {
+          var ts = r[tsK];
+          try {
+            ts = new Date(ts).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', hour12:true });
+          } catch(e) {}
+          html += '<td class="muted-val">' + esc(ts) + '</td>';
+        }
+        if (fileK) {
+          var url = r[fileK] || '';
+          if (url && url.startsWith('http')) {
+            html += '<td><a href="' + esc(url) + '" target="_blank" class="screenshot-link">VIEW</a></td>';
+          } else if (url) {
+            html += '<td class="muted-val">✓</td>';
+          } else {
+            html += '<td class="muted-val">—</td>';
+          }
+        }
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      document.getElementById('tableWrap').innerHTML = html;
+      document.getElementById('filterInfo').textContent = rows.length + ' registration' + (rows.length !== 1 ? 's' : '');
+    }
+
+    function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+    // ── Search ──
+    document.getElementById('searchBox').addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      if (!q) { renderTable(allRows); return; }
+      var filtered = allRows.filter(function(r) {
+        return Object.values(r).some(function(v) {
+          return (v || '').toString().toLowerCase().includes(q);
+        });
+      });
+      renderTable(filtered);
+    });
+
+    // ══════════════════════════════════
+    //  LOGIN / AUTH
+    // ══════════════════════════════════
+    // Password: urbanmiles2026  (SHA-256 hash below)
+    var PASS_HASH = 'ab7dd1523e93919f9a7997a0fcb6f5f900858e38f8f2febf1f69de310b32aca0';
+
+    async function sha256(str) {
+      var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      var pass = document.getElementById('loginPass').value;
+      var hash = await sha256(pass);
+      if (hash === PASS_HASH) {
+        sessionStorage.setItem('um_admin', 'true');
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('adminContent').classList.add('authed');
+        loadData();
+      } else {
+        document.getElementById('loginError').textContent = 'INCORRECT PASSWORD';
+        document.getElementById('loginPass').value = '';
+        document.getElementById('loginPass').focus();
+      }
+      return false;
+    }
+
+    function logout() {
+      sessionStorage.removeItem('um_admin');
+      document.getElementById('adminContent').classList.remove('authed');
+      document.getElementById('loginOverlay').classList.remove('hidden');
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginError').textContent = '';
+    }
+
+    // ── Init: check session ──
+    if (sessionStorage.getItem('um_admin') === 'true') {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('adminContent').classList.add('authed');
+      loadData();
+    }
+
+    // Auto-refresh every 60s (only if authed)
+    setInterval(function() {
+      if (sessionStorage.getItem('um_admin') === 'true') loadData();
+    }, 60000);
+  </script>
+</body>
+</html>
