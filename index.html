@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Urban Miles – Hyderabad Run Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --lime:#c8f046;
+  --black:#0a0a0a;
+  --dark:#111111;
+  --darker:#0d0d0d;
+  --card:#161616;
+  --muted:#888;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--black);color:#fff;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ═══════════════════════════════════
+   MOBILE NAV  (fixed top bar)
+═══════════════════════════════════ */
+.m-nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:900;
+  background:rgba(10,10,10,.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 18px;
+  border-bottom:1px solid #1e1e1e;
+  height:56px;
+}
+.m-nav img{height:32px;width:auto;object-fit:contain}
+.burger{
+  background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;gap:5px;
+  padding:4px;
+  -webkit-tap-highlight-color:transparent;
+}
+.burger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
+
+/* Drawer overlay */
+.d-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.65);z-index:1800;
+}
+.d-overlay.on{display:block}
+
+/* Drawer panel */
+.drawer{
+  position:fixed;top:0;right:-100%;
+  width:72vw;max-width:260px;height:100%;
+  background:#111;z-index:2000;
+  padding:64px 28px 36px;
+  border-left:1px solid #222;
+  display:flex;flex-direction:column;gap:28px;
+  transition:right .32s cubic-bezier(.4,0,.2,1);
+}
+.drawer.on{right:0}
+.drawer a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:22px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color .2s;
+}
+.drawer a:hover{color:var(--lime)}
+.d-close{
+  position:absolute;top:16px;right:18px;
+  background:none;border:none;color:#fff;
+  font-size:22px;cursor:pointer;line-height:1;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ═══════════════════════════════════
+   DESKTOP SIDE NAV  (≥1024px only)
+═══════════════════════════════════ */
+.s-nav{display:none}
+
+/* ═══════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════ */
+.wrap{width:100%;padding-top:56px}/* 56 = mobile nav height */
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+#hero{
+  position:relative;
+  width:100%;height:calc(100svh - 56px);
+  min-height:520px;overflow:hidden;
+}
+.hero-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+/* NO overlay as requested */
+.hero-body{
+  position:absolute;bottom:36px;left:20px;right:20px;
+  z-index:10;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.eyebrow{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:rgba(255,255,255,.9);
+  text-transform:uppercase;margin-bottom:10px;
+  text-shadow:0 1px 8px rgba(0,0,0,.9);
+}
+.eyebrow span{margin:0 4px}
+.h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(40px,10vw,90px);
+  line-height:.9;text-transform:uppercase;color:#fff;
+  text-shadow:0 2px 24px rgba(0,0,0,.75);
+  margin-bottom:18px;
+}
+.h1 .ac{color:var(--lime)}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:14px}
+.tagline{
+  font-size:13px;font-style:italic;
+  color:rgba(255,255,255,.9);
+  text-shadow:0 1px 8px rgba(0,0,0,.9);
+}
+.btn-l{
+  display:inline-block;background:var(--lime);color:#000;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 28px;text-decoration:none;
+  -webkit-tap-highlight-color:transparent;transition:background .2s;
+}
+.btn-l:active{background:#b5d83a}
+
+/* ═══════════════════════════════════
+   PARTNER
+═══════════════════════════════════ */
+#partner{
+  width:100%;background:var(--darker);
+  padding:28px 20px;
+  display:flex;flex-direction:column;
+  align-items:center;gap:18px;
+}
+.p-row{display:flex;align-items:center;gap:12px;justify-content:center}
+.p-line{flex:1;max-width:52px;height:1px;background:var(--lime)}
+.p-lbl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;letter-spacing:2.5px;
+  color:var(--muted);text-transform:uppercase;text-align:center;
+}
+.mk-logo{
+  width:80px;height:80px;border-radius:50%;
+  object-fit:cover;
+  border:2px solid #333;
+  box-shadow:0 0 30px rgba(80,80,200,.25);
+}
+
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
+#about{width:100%}
+
+/* Marquee block */
+.marquee-wrap{
+  width:100%;overflow:hidden;
+  background:#0a0a0a;
+  padding:16px 0;
+  border-bottom:1px solid #1a1a1a;
+}
+.mq-row{overflow:hidden;padding:6px 0}
+.mq-track{
+  display:flex;white-space:nowrap;
+  animation:mq 16s linear infinite;
+}
+.mq-track.rev{animation-direction:reverse}
+.mq-track span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(36px,11vw,80px);
+  text-transform:uppercase;line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.13);
+  padding-right:32px;
+  user-select:none;
+}
+.mq-track span.lit{
+  color:rgba(255,255,255,.8);
+  -webkit-text-stroke:0;
+}
+@keyframes mq{
+  from{transform:translateX(0)}
+  to  {transform:translateX(-50%)}
+}
+
+/* About content */
+.about-body{background:var(--dark);padding:44px 20px}
+.sec-lbl{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.sec-lbl .ln{width:26px;height:1px;background:var(--lime)}
+.sec-lbl span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2.5px;color:var(--lime);text-transform:uppercase;
+}
+.about-h{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(40px,12vw,68px);
+  line-height:.95;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.about-h .ac{color:var(--lime)}
+.about-txt{
+  font-size:13.5px;line-height:1.75;
+  color:rgba(255,255,255,.68);margin-bottom:32px;
+}
+.about-txt p+p{margin-top:10px}
+.feat-list{border-top:1px solid #222}
+.feat{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px 0;border-bottom:1px solid #1e1e1e;
+}
+.f-icon{
+  min-width:42px;height:42px;width:42px;
+  background:#1c1c1c;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;
+}
+.f-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:16px;
+  letter-spacing:.4px;margin-bottom:3px;
+}
+.f-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6}
+
+/* ═══════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════ */
+#how{width:100%;background:var(--black);padding:44px 20px}
+.how-lbl{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.how-lbl .ln{width:26px;height:1px;background:var(--lime)}
+.how-lbl span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2.5px;color:var(--lime);text-transform:uppercase;
+}
+.how-h{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(42px,12vw,72px);
+  text-transform:uppercase;margin-bottom:28px;
+}
+.steps{
+  display:flex;flex-direction:column;
+  gap:2px;background:#1c1c1c;
+  border:1px solid #1c1c1c;
+}
+.step{
+  background:var(--card);
+  padding:26px 22px;position:relative;
+}
+.s-num{
+  position:absolute;top:14px;right:18px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:44px;
+  color:rgba(255,255,255,.05);line-height:1;
+}
+.s-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:32px;
+  text-transform:uppercase;margin-bottom:10px;
+}
+.s-title.lime{color:var(--lime)}
+.s-div{width:18px;height:2px;background:#333;margin-bottom:12px}
+.step.active .s-div{background:var(--lime)}
+.s-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,.5)}
+
+/* ═══════════════════════════════════
+   EVENTS
+═══════════════════════════════════ */
+#events{width:100%;background:var(--darker)}
+.ev-left{padding:36px 20px;border-bottom:1px solid #1e1e1e}
+.badge{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--lime);
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.badge span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:2.5px;color:var(--muted);text-transform:uppercase;
+}
+.ev-date{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(96px,26vw,140px);
+  line-height:1;color:#fff;letter-spacing:-3px;
+}
+.ev-my{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:17px;font-weight:600;
+  letter-spacing:2px;color:var(--muted);
+  text-transform:uppercase;
+  margin-top:-6px;margin-bottom:28px;
+  display:flex;flex-direction:column;
+}
+.ev-details{border-top:1px solid #222}
+.ev-row{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap:10px;
+  padding:14px 0;border-bottom:1px solid #1a1a1a;
+}
+.ev-row .k{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9.5px;font-weight:700;
+  letter-spacing:2px;color:var(--muted);
+  text-transform:uppercase;white-space:nowrap;padding-top:2px;
+}
+.ev-row .v{font-size:12.5px;color:#fff;text-align:right;line-height:1.4}
+
+.ev-right{padding:36px 20px}
+.ne-lbl{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ne-lbl .ln{width:26px;height:1px;background:var(--lime)}
+.ne-lbl span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2.5px;color:var(--lime);text-transform:uppercase;
+}
+.wc-h{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(46px,13vw,80px);
+  text-transform:uppercase;line-height:.95;
+  margin-bottom:28px;
+}
+.ev-feats{display:flex;flex-direction:column;gap:20px;margin-bottom:32px}
+.ef{display:flex;align-items:flex-start;gap:12px}
+.ef-dot{
+  min-width:8px;width:8px;height:8px;
+  border-radius:50%;background:var(--lime);margin-top:4px;
+}
+.ef-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:14px;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;
+}
+.ef-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6}
+.btn-lb{
+  display:block;width:100%;
+  background:var(--lime);color:#000;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  padding:17px 24px;text-align:center;text-decoration:none;
+  -webkit-tap-highlight-color:transparent;transition:background .2s;
+}
+.btn-lb:active{background:#b5d83a}
+
+/* ═══════════════════════════════════
+   CTA
+═══════════════════════════════════ */
+#cta{
+  width:100%;background:#131313;
+  padding:56px 20px;text-align:center;
+}
+.cta-lbl{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;margin-bottom:14px;
+}
+.cta-lbl .ln{width:30px;height:1px;background:var(--muted)}
+.cta-lbl span{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2.5px;color:var(--muted);text-transform:uppercase;
+}
+.cta-h{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:clamp(42px,13vw,84px);
+  text-transform:uppercase;line-height:.95;margin-bottom:14px;
+}
+.cta-h .ac{color:var(--lime)}
+.cta-sub{
+  font-size:13px;color:rgba(255,255,255,.48);
+  max-width:300px;margin:0 auto 28px;line-height:1.65;
+}
+.btn-wo{
+  display:inline-block;
+  background:transparent;color:#fff;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  padding:15px 32px;text-decoration:none;
+  border:1px solid #fff;
+  -webkit-tap-highlight-color:transparent;transition:background .2s,color .2s;
+}
+.btn-wo:active{background:#fff;color:#000}
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+footer{width:100%;background:var(--black);border-top:1px solid #1e1e1e}
+.foot-in{
+  display:flex;flex-direction:column;
+  align-items:center;gap:22px;
+  padding:32px 20px 22px;text-align:center;
+}
+.foot-logo{height:28px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}
+.foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 18px}
+.foot-links a{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10.5px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s;
+}
+.foot-links a:hover{color:#fff}
+.socials{display:flex;gap:10px}
+.soc{
+  width:38px;height:38px;
+  border:1px solid #2a2a2a;
+  background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.4);font-size:15px;
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;transition:border-color .2s,color .2s;
+}
+.soc:hover{border-color:var(--lime);color:var(--lime)}
+.foot-bot{
+  display:flex;flex-direction:column;
+  align-items:center;gap:5px;
+  padding:14px 20px;border-top:1px solid #1a1a1a;text-align:center;
+}
+.foot-bot span{font-size:10.5px;color:rgba(255,255,255,.25)}
+.foot-bot a{color:rgba(255,255,255,.38);text-decoration:none}
+.foot-bot a .dev{color:rgba(255,255,255,.6);font-weight:600}
+.foot-bot a:hover .dev{color:var(--lime)}
+
+/* ═══════════════════════════════════
+   TABLET  ≥640px
+═══════════════════════════════════ */
+@media(min-width:640px){
+  .hero-body{left:40px;right:40px;bottom:52px;align-items:flex-start;text-align:left}
+  .cta-row{align-items:flex-start}
+  #partner{flex-direction:row;justify-content:space-between;padding:36px 40px}
+  .about-body{padding:56px 40px}
+  #how{padding:56px 40px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);flex-direction:unset}
+  .ev-left{padding:44px 40px}
+  .ev-right{padding:44px 40px}
+  .btn-lb{display:inline-block;width:auto}
+  #cta{padding:72px 40px}
+  .foot-in{flex-direction:row;justify-content:space-between;text-align:left;padding:28px 40px}
+  .foot-links{justify-content:flex-start}
+  .foot-bot{flex-direction:row;justify-content:space-between;padding:14px 40px}
+}
+
+/* ═══════════════════════════════════
+   DESKTOP  ≥1024px  →  side nav
+═══════════════════════════════════ */
+@media(min-width:1024px){
+  /* hide mobile nav & drawer */
+  .m-nav,.drawer,.d-overlay{display:none!important}
+  .wrap{padding-top:0}
+
+  /* show side nav */
+  .s-nav{
+    display:flex;position:fixed;
+    right:0;top:0;height:100vh;width:60px;
+    background:#111;z-index:900;
+    flex-direction:column;align-items:center;justify-content:space-between;
+    padding:24px 0;border-left:1px solid #1e1e1e;
+  }
+  .sn-brand{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;font-size:13px;letter-spacing:3px;color:#fff;
+    display:flex;align-items:center;gap:6px;
+  }
+  .sn-brand img{width:20px;height:auto;transform:rotate(90deg);filter:brightness(0) invert(1);opacity:.8}
+  .sn-links{display:flex;flex-direction:column;align-items:center;gap:30px}
+  .sn-links a{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:10.5px;font-weight:600;letter-spacing:2.5px;
+    color:var(--muted);text-decoration:none;text-transform:uppercase;
+    transition:color .2s;
+  }
+  .sn-links a:hover{color:var(--lime)}
+
+  /* all sections shrink by side nav */
+  #hero,#partner,#about,#events,#how,#cta,footer{width:calc(100vw - 60px)}
+
+  #hero{height:100vh;min-height:600px}
+  .hero-body{bottom:90px;left:60px;right:60px}
+  .cta-row{flex-direction:row;align-items:center}
+
+  #partner{flex-direction:row;justify-content:space-between;padding:44px 60px}
+
+  #about{display:grid;grid-template-columns:45% 55%}
+  .marquee-wrap{
+    border-bottom:none;
+    padding:0;
+    min-height:100%;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .mq-row{padding:10px 0}
+  .about-body{padding:72px 60px}
+
+  #how{padding:72px 60px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);flex-direction:unset}
+
+  #events{display:grid;grid-template-columns:45% 55%}
+  .ev-left{padding:56px 60px;border-bottom:none;border-right:1px solid #1e1e1e}
+  .ev-right{padding:56px 60px}
+  .btn-lb{display:inline-block;width:auto}
+
+  #cta{padding:100px 60px}
+
+  .foot-in{flex-direction:row;justify-content:space-between;text-align:left;padding:28px 60px}
+  .foot-links{justify-content:flex-start}
+  .foot-bot{flex-direction:row;justify-content:space-between;padding:14px 60px}
+}
+
+/* ═══════════════════════════════════
+   VERY SMALL PHONES  ≤360px
+═══════════════════════════════════ */
+@media(max-width:360px){
+  .h1{font-size:36px}
+  .about-h{font-size:36px}
+  .how-h{font-size:38px}
+  .ev-date{font-size:88px}
+  .wc-h{font-size:42px}
+  .cta-h{font-size:38px}
+  .hero-body,.about-body,.ev-left,.ev-right,#how,#cta{
+    padding-left:14px;padding-right:14px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ MOBILE TOP NAV ════ -->
+<nav class="m-nav">
+  <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png" alt="Urban Miles">
+  <button class="burger" id="mBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="d-overlay" id="dOv"></div>
+<div class="drawer" id="dPanel">
+  <button class="d-close" id="dClose">✕</button>
+  <a href="#about"  onclick="cD()">ABOUT</a>
+  <a href="#events" onclick="cD()">EVENTS</a>
+  <a href="#how"    onclick="cD()">THE FORMULA</a>
+  <a href="#cta"    onclick="cD()">JOIN</a>
+</div>
+
+<!-- ════ DESKTOP SIDE NAV ════ -->
+<nav class="s-nav">
+  <div class="sn-brand">
+    <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png" alt="">
+    URBAN MILES
+  </div>
+  <div class="sn-links">
+    <a href="#about">ABOUT</a>
+    <a href="#events">EVENTS</a>
+    <a href="#how">CULTURE</a>
+    <a href="#cta">JOIN</a>
+  </div>
+</nav>
+
+<!-- ════ PAGE ════ -->
+<div class="wrap">
+
+  <!-- HERO -->
+  <section id="hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1778958056/VN20260517_002338_ehpixb.mp4" type="video/mp4">
+    </video>
+    <div class="hero-body">
+      <div class="eyebrow">HYDERABAD <span>·</span> EST. 2026 <span>·</span> EVERY SUNDAY 6AM</div>
+      <div class="h1">SWEAT. <span class="ac">SMILE.</span><br>SOCIALIZE.</div>
+      <div class="cta-row">
+        <div class="tagline">It starts with a run. It becomes an experience.</div>
+        <a href="#events" class="btn-l">REGISTER NOW</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COFFEE PARTNER -->
+  <section id="partner">
+    <div class="p-row">
+      <div class="p-line"></div>
+      <div class="p-lbl">OFFICIAL COFFEE PARTNER</div>
+      <div class="p-line" style="display:none"></div>
+    </div>
+    <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001497/mana_katha_logo_hkfwoc.jpg"
+         alt="Mana Katha Coffee" class="mk-logo">
+    <div class="p-row">
+      <div class="p-line" style="display:none"></div>
+      <div class="p-lbl">MANA KATHA · HYDERABAD</div>
+      <div class="p-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="marquee-wrap">
+      <div class="mq-row"><div class="mq-track">
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+      </div></div>
+      <div class="mq-row"><div class="mq-track rev">
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+      </div></div>
+      <div class="mq-row"><div class="mq-track">
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+      </div></div>
+      <div class="mq-row"><div class="mq-track rev">
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+      </div></div>
+      <div class="mq-row"><div class="mq-track">
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+        <span>URBAN MILES &nbsp;</span><span>URBAN MILES &nbsp;</span>
+      </div></div>
+      <div class="mq-row"><div class="mq-track rev">
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+        <span class="lit">URBAN MILES &nbsp;</span><span class="lit">URBAN MILES &nbsp;</span>
+      </div></div>
+    </div>
+
+    <div class="about-body">
+      <div class="sec-lbl"><div class="ln"></div><span>ABOUT US</span><div class="ln"></div></div>
+      <div class="about-h">MORE THAN A<br>RUN CLUB.<br><span class="ac">A LIFESTYLE.</span></div>
+      <div class="about-txt">
+        <p>Urban Miles is Hyderabad's community-first running experience — where the discipline of early morning runs meets the energy of music, coffee, and real human connection.</p>
+        <p>Every Sunday at 6AM, we gather. We run together, fuel up at the city's best cafés, and vibe. No pressure, no pace requirements — just people who show up.</p>
+      </div>
+      <div class="feat-list">
+        <div class="feat">
+          <div class="f-icon">🏃</div>
+          <div><div class="f-title">Group Running</div><div class="f-desc">Fun and energetic runs designed for all fitness levels. Run together, stay motivated, enjoy every step.</div></div>
+        </div>
+        <div class="feat">
+          <div class="f-icon">🎵</div>
+          <div><div class="f-title">Music &amp; Vibes</div><div class="f-desc">Music-powered sessions that boost energy, mood, and the overall experience of every run.</div></div>
+        </div>
+        <div class="feat">
+          <div class="f-icon">☕</div>
+          <div><div class="f-title">Post-Run Culture</div><div class="f-desc">Wind down at partner cafés, build friendships, and make Sunday mornings the best part of your week.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="how-lbl"><div class="ln"></div><span>THE FORMULA</span><div class="ln"></div></div>
+    <div class="how-h">HOW IT WORKS</div>
+    <div class="steps">
+      <div class="step">
+        <div class="s-num">01</div>
+        <div class="s-title">RUN</div>
+        <div class="s-div"></div>
+        <div class="s-desc">3KM every Sunday at 6AM. All paces welcome. The city before it wakes up.</div>
+      </div>
+      <div class="step">
+        <div class="s-num">02</div>
+        <div class="s-title">CONNECT</div>
+        <div class="s-div"></div>
+        <div class="s-desc">Post-run coffee at the city's best cafés. Strangers become regulars.</div>
+      </div>
+      <div class="step active">
+        <div class="s-num">03</div>
+        <div class="s-title lime">RAVE</div>
+        <div class="s-div"></div>
+        <div class="s-desc">Live DJ sets. Music that moves you. This is why they keep coming back.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="events">
+    <div class="ev-left">
+      <div class="badge"><div class="dot"></div><span>THIS SUNDAY</span></div>
+      <div class="ev-date">26</div>
+      <div class="ev-my"><span>MAY</span><span>2026</span></div>
+      <div class="ev-details">
+        <div class="ev-row"><span class="k">START TIME</span><span class="v">06:00 AM</span></div>
+        <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">Durgam Cheruvu, Hyderabad</span></div>
+        <div class="ev-row"><span class="k">DISTANCE</span><span class="v">3 KM — All paces welcome</span></div>
+        <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">Mana Katha Coffee, Banjara Hills</span></div>
+      </div>
+    </div>
+    <div class="ev-right">
+      <div class="ne-lbl"><div class="ln"></div><span>NEXT EVENT</span></div>
+      <div class="wc-h">WHAT'S<br>COMING</div>
+      <div class="ev-feats">
+        <div class="ef"><div class="ef-dot"></div><div><div class="ef-title">ELEVATE YOUR SUNDAYS</div><div class="ef-desc">Start your week with energy, fitness, and a community that keeps you accountable.</div></div></div>
+        <div class="ef"><div class="ef-dot"></div><div><div class="ef-title">START TIME</div><div class="ef-desc">Join us at 6:00 AM for a refreshing and energetic start to your Sunday.</div></div></div>
+        <div class="ef"><div class="ef-dot"></div><div><div class="ef-title">LOCATION</div><div class="ef-desc">Hyderabad's best routes — Durgam Cheruvu, HITEC City, and beyond.</div></div></div>
+        <div class="ef"><div class="ef-dot"></div><div><div class="ef-title">ABOUT THE COMMUNITY</div><div class="ef-desc">Connect with passionate runners and experience the energy of Hyderabad's most vibrant run club.</div></div></div>
+      </div>
+      <a href="#" class="btn-lb">JOIN THIS SUNDAY</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-lbl"><div class="ln"></div><span>COMMUNITY LOVE</span><div class="ln"></div></div>
+    <div class="cta-h">READY TO <span class="ac">SHOW UP?</span></div>
+    <div class="cta-sub">All you need is a pair of shoes and a willingness to move. The rest takes care of itself.</div>
+    <a href="#" class="btn-wo">JOIN THIS SUNDAY</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-in">
+      <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png"
+           alt="Urban Miles" class="foot-logo">
+      <div class="foot-links">
+        <a href="#">HOME</a>
+        <a href="#events">EVENTS</a>
+        <a href="#">PRIVACY POLICY</a>
+        <a href="#">TERMS &amp; CONDITIONS</a>
+        <a href="#">REFUND POLICY</a>
+      </div>
+      <div class="socials">
+        <a href="#" class="soc" aria-label="Email">✉</a>
+        <a href="#" class="soc" aria-label="WhatsApp">💬</a>
+        <a href="#" class="soc" aria-label="Instagram">📷</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Urban Miles · All Rights Reserved</span>
+      <span>Design and developed by <a href="#"><span class="dev">shubsss</span></a></span>
+    </div>
+  </footer>
+
+</div><!-- /wrap -->
+
+<script>
+  var mBtn=document.getElementById('mBtn'),
+      dOv=document.getElementById('dOv'),
+      dPanel=document.getElementById('dPanel'),
+      dClose=document.getElementById('dClose');
+
+  function oD(){dPanel.classList.add('on');dOv.classList.add('on')}
+  function cD(){dPanel.classList.remove('on');dOv.classList.remove('on')}
+
+  mBtn.addEventListener('click',oD);
+  dClose.addEventListener('click',cD);
+  dOv.addEventListener('click',cD);
+</script>
+</body>
+</html>
