@@ -2021,11 +2021,12 @@
 
         <!-- Payment QR -->
         <div class="pay-section">
-          <div class="pay-title">SCAN TO PAY</div>
-          <img src="qr_um.jpeg" alt="UPI QR Code"
-            class="qr-img" id="qrImg">
-          <div class="pay-note">Scan the QR code above with any UPI app to complete payment.<br>Then enter the UTR
-            number and upload a screenshot below.</div>
+          <div class="pay-title">SCAN TO PAY ₹399</div>
+          <div id="qrContainer" style="width: 180px; height: 180px; margin: 0 auto 12px; background: #fff; border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center;">
+            <canvas id="qrImg" style="width: 100%; height: 100%;"></canvas>
+          </div>
+          <div class="pay-note">Scan the QR code above with any UPI app or click the button below to complete payment of ₹399.<br>Then enter the UTR number and upload a screenshot.</div>
+          <button type="button" id="upiPayBtn" style="margin-top: 16px; padding: 12px 24px; background: linear-gradient(135deg, #4C63D2 0%, #2D3E8F 100%); color: #fff; border: none; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: transform .2s; width: 100%;">💳 PAY WITH UPI</button>
         </div>
 
         <!-- UTR -->
@@ -2151,6 +2152,9 @@
 
   </div><!-- /wrap -->
 
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <script>
     /* ── Drawer Nav ── */
     var mBtn = document.getElementById('mBtn'),
@@ -2164,6 +2168,51 @@
     mBtn.addEventListener('click', oD);
     dClose.addEventListener('click', cD);
     dOv.addEventListener('click', cD);
+
+    /* ── Dynamic QR Code Generation ── */
+    function generateUPIQRCode() {
+      var upiID = '9063939760@ptsbi';
+      var amount = '399';
+      var name = 'Urban Miles';
+      var upiString = 'upi://pay?pa=' + encodeURIComponent(upiID) + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + encodeURIComponent('Urban Miles Registration');
+      
+      // Clear previous QR code if any
+      var qrContainer = document.getElementById('qrContainer');
+      qrContainer.innerHTML = '';
+      
+      // Generate QR code
+      new QRCode(document.getElementById('qrImg'), {
+        text: upiString,
+        width: 180,
+        height: 180,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    // Generate QR code on page load
+    window.addEventListener('load', generateUPIQRCode);
+
+    /* ── UPI Payment Button ── */
+    var upiPayBtn = document.getElementById('upiPayBtn');
+    
+    upiPayBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      
+      var upiID = '9063939760@ptsbi';
+      var amount = '399';
+      var name = 'Urban Miles';
+      var upiString = 'upi://pay?pa=' + encodeURIComponent(upiID) + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + encodeURIComponent('Urban Miles Registration');
+      
+      // Create a temporary link and click it
+      var upiLink = document.createElement('a');
+      upiLink.href = upiString;
+      upiLink.style.display = 'none';
+      document.body.appendChild(upiLink);
+      upiLink.click();
+      document.body.removeChild(upiLink);
+    });
 
     /* ══════════════════════════════════
        REGISTRATION FORM LOGIC
