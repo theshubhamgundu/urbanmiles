@@ -2180,8 +2180,12 @@
       var qrContainer = document.getElementById('qrContainer');
       qrContainer.innerHTML = '';
       
+      // Create a new canvas element for QR code
+      var canvas = document.createElement('canvas');
+      qrContainer.appendChild(canvas);
+      
       // Generate QR code
-      new QRCode(document.getElementById('qrImg'), {
+      new QRCode(canvas, {
         text: upiString,
         width: 180,
         height: 180,
@@ -2191,8 +2195,10 @@
       });
     }
 
-    // Generate QR code on page load
-    window.addEventListener('load', generateUPIQRCode);
+    // Generate QR code on page load - ensure it runs after QRCode library is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(generateUPIQRCode, 100);
+    });
 
     /* ── UPI Payment Button ── */
     var upiPayBtn = document.getElementById('upiPayBtn');
