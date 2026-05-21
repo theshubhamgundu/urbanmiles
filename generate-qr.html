@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Image Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { font-size: 20px; margin-top: 0; }
+        #qr { text-align: center; margin: 20px 0; }
+        canvas { border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #4C63D2; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; margin-top: 10px; }
+        button:hover { background: #2D3E8F; }
+        .instructions { font-size: 12px; color: #666; margin-top: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Urban Miles Payment QR Generator</h1>
+        <p>This tool generates the payment QR code for Urban Miles registration.</p>
+        
+        <div id="qr"></div>
+        
+        <button onclick="downloadQR()">Download as PNG</button>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong><br>
+            1. Click "Download as PNG" to save the QR code<br>
+            2. Save it as <code>payment-qr.png</code> in the urban_miles folder<br>
+            3. The registration form will automatically use it
+        </div>
+    </div>
+
+    <script>
+        const PAYMENT = {
+            UPI_ID: '9063939760@ptsbi',
+            AMOUNT: '399',
+            MERCHANT_NAME: 'Urban Miles',
+            generateUPIString: function() {
+                return 'upi://pay?pa=' + encodeURIComponent(this.UPI_ID) + 
+                       '&pn=' + encodeURIComponent(this.MERCHANT_NAME) + 
+                       '&am=' + this.AMOUNT + 
+                       '&tn=' + encodeURIComponent('Urban Miles Registration');
+            }
+        };
+
+        // Generate QR code
+        var qrElement = document.getElementById('qr');
+        new QRCode(qrElement, {
+            text: PAYMENT.generateUPIString(),
+            width: 256,
+            height: 256,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function downloadQR() {
+            // Get the canvas from QRCode
+            var canvas = qrElement.querySelector('canvas');
+            if (!canvas) {
+                alert('QR code not yet generated. Please wait a moment.');
+                return;
+            }
+            
+            // Convert canvas to blob and download
+            canvas.toBlob(function(blob) {
+                var url = window.URL.createObjectURL(blob);
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = 'payment-qr.png';
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(link);
+                alert('QR code downloaded! Save it as "payment-qr.png" in the urban_miles folder.');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -2022,8 +2022,9 @@
         <!-- Payment QR -->
         <div class="pay-section">
           <div class="pay-title">SCAN TO PAY ₹399</div>
-          <div id="qrContainer" style="width: 180px; height: 180px; margin: 0 auto 12px; background: #fff; border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center;">
-            <canvas id="qrImg" style="width: 100%; height: 100%;"></canvas>
+          <!-- QR Code Container -->
+          <div id="qrContainer" style="width: 180px; height: 180px; margin: 0 auto 12px; background: #fff; border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <img src="payment.jpeg" alt="UPI Payment QR Code" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
           <div class="pay-note">Scan the QR code above with any UPI app or click the button below to complete payment of ₹399.<br>Then enter the UTR number and upload a screenshot.</div>
           <button type="button" id="upiPayBtn" style="margin-top: 16px; padding: 12px 24px; background: linear-gradient(135deg, #4C63D2 0%, #2D3E8F 100%); color: #fff; border: none; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: transform .2s; width: 100%;">💳 PAY WITH UPI</button>
@@ -2152,8 +2153,8 @@
 
   </div><!-- /wrap -->
 
-  <!-- QR Code Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Payment Constants -->
+  <script src="payment-constants.js"></script>
 
   <script>
     /* ── Drawer Nav ── */
@@ -2169,55 +2170,25 @@
     dClose.addEventListener('click', cD);
     dOv.addEventListener('click', cD);
 
-    /* ── Dynamic QR Code Generation ── */
-    function generateUPIQRCode() {
-      var upiID = '9063939760@ptsbi';
-      var amount = '399';
-      var name = 'Urban Miles';
-      var upiString = 'upi://pay?pa=' + encodeURIComponent(upiID) + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + encodeURIComponent('Urban Miles Registration');
-      
-      // Clear previous QR code if any
-      var qrContainer = document.getElementById('qrContainer');
-      qrContainer.innerHTML = '';
-      
-      // Create a new canvas element for QR code
-      var canvas = document.createElement('canvas');
-      qrContainer.appendChild(canvas);
-      
-      // Generate QR code
-      new QRCode(canvas, {
-        text: upiString,
-        width: 180,
-        height: 180,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    }
-
-    // Generate QR code on page load - ensure it runs after QRCode library is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(generateUPIQRCode, 100);
-    });
-
-    /* ── UPI Payment Button ── */
-    var upiPayBtn = document.getElementById('upiPayBtn');
-    
-    upiPayBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      
-      var upiID = '9063939760@ptsbi';
-      var amount = '399';
-      var name = 'Urban Miles';
-      var upiString = 'upi://pay?pa=' + encodeURIComponent(upiID) + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + encodeURIComponent('Urban Miles Registration');
-      
-      // Create a temporary link and click it
+    /* ── UPI Payment Handler ── */
+    function handleUPIPayment() {
+      var upiString = PAYMENT.generateUPIString();
       var upiLink = document.createElement('a');
       upiLink.href = upiString;
       upiLink.style.display = 'none';
       document.body.appendChild(upiLink);
       upiLink.click();
       document.body.removeChild(upiLink);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var upiPayBtn = document.getElementById('upiPayBtn');
+      if (upiPayBtn) {
+        upiPayBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          handleUPIPayment();
+        });
+      }
     });
 
     /* ══════════════════════════════════
