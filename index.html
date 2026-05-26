@@ -213,6 +213,7 @@
       text-transform: uppercase;
       margin-bottom: 18px;
       text-shadow: 0 2px 12px rgba(0, 0, 0, .9);
+      white-space: nowrap;
     }
 
     .eyebrow span {
@@ -228,6 +229,13 @@
       color: #fff;
       text-shadow: 0 4px 32px rgba(0, 0, 0, .8);
       margin-bottom: 28px;
+    }
+
+    @media (max-width: 420px) {
+      .eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+      }
     }
 
     .h1 .ac {
@@ -506,7 +514,105 @@
     .f-desc {
       font-size: 13.5px;
       color: rgba(255, 255, 255, .6);
-      line-height: 1.6
+      line-height: 1.6;
+    }
+
+    .ev-videos {
+      display: flex;
+      gap: 12px;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .ev-videos video {
+      width: calc(50% - 6px);
+      max-width: 320px;
+      border-radius: 8px;
+      background: #000;
+      box-shadow: 0 8px 22px rgba(0,0,0,.45);
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      .ev-videos video {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Video card + custom play */
+    .ev-card {
+      position: relative;
+      width: calc(50% - 6px);
+      max-width: 420px;
+      display: inline-block;
+    }
+
+    .ev-card .ev-thumb {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .play-btn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.45);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .18s ease, transform .12s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,.45);
+    }
+
+    .play-btn svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+
+    .play-btn.playing { background: rgba(0,0,0,.18); transform: translate(-50%, -50%) scale(.98); }
+
+    .ev-caption {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.9);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .ev-videos { flex-wrap: wrap; }
+      .ev-card { width: calc(50% - 6px); }
+    }
+
+    @media (max-width: 640px) {
+      .ev-card { width: 100%; max-width: 100%; }
+      .ev-card .ev-thumb { aspect-ratio: 9 / 16; }
+    }
+
+    /* Ensure gallery shows cards side-by-side; allow horizontal scroll on narrow viewports */
+    .ev-gallery {
+      display: flex;
+      gap: 12px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .ev-gallery .ev-card {
+      flex: 0 0 auto;
+      width: 48%;
+      min-width: 220px;
+    }
     }
 
     /* ═══════════════════════════════════
@@ -1778,7 +1884,7 @@
           type="video/mp4">
       </video>
       <div class="hero-body">
-        <div class="eyebrow">HYDERABAD <span>·</span> EST. 31 <span>·</span> EVERY SUNDAY 6AM</div>
+        <div class="eyebrow">HYDERABAD <span>·</span> EST. 2026 <span>·</span> EVERY SUNDAY 6AM</div>
         <div class="h1">SWEAT.<span class="ac">SMILE.</span><br>SOCIALIZE.</div>
         <div class="cta-row">
           <div class="tagline">It starts with a run. It becomes an experience.</div>
@@ -1950,43 +2056,24 @@
       </div>
       <div class="ev-right">
         <div class="ne-lbl">
-          <div class="ln"></div><span>LAST EVENT</span>
-        </div>
-        <div class="wc-h">MILESTONE<br>MOMENTS</div>
-        <div class="ev-feats">
-          <div class="ef">
-            <div class="ef-dot"></div>
-            <div>
-              <div class="ef-title">HIGHLIGHT REEL</div>
-              <div class="ef-desc">A quick look back at the best moments from our latest run morning.
-              </div>
-            </div>
+            <div class="ln"></div><span>EVENT HIGHLIGHTS</span>
           </div>
-          <div class="ef">
-            <div class="ef-dot"></div>
-            <div>
-              <div class="ef-title">RACE DAY ENERGY</div>
-              <div class="ef-desc">The pace, the smiles, and the crowd that made the morning feel bigger than the run.</div>
-            </div>
+          <div class="wc-h">MILESTONE<br>MOMENTS</div>
+        <div class="ev-gallery">
+          <div class="ev-card">
+            <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779795611/img_rqkv1u.png" oncontextmenu="return false">
+              <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
+            </video>
+            
           </div>
-          <div class="ef">
-            <div class="ef-dot"></div>
-            <div>
-              <div class="ef-title">POST-RUN SCENES</div>
-              <div class="ef-desc">Coffee, conversations, and the kind of moments that deserve a full gallery.
-              </div>
-            </div>
-          </div>
-          <div class="ef">
-            <div class="ef-dot"></div>
-            <div>
-              <div class="ef-title">MORE TO SEE</div>
-              <div class="ef-desc">We’ll add the full last-event gallery here so you can relive the complete vibe.
-              </div>
-            </div>
+
+          <div class="ev-card">
+            <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779795611/img_rqkv1u.png" oncontextmenu="return false">
+              <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
+            </video>
+            
           </div>
         </div>
-        <div class="btn-lb">GALLERY COMING SOON</div>
       </div>
     </section>
 
@@ -2356,6 +2443,53 @@
         submitBtn.classList.remove('loading');
       }
     });
+
+    // Video gallery: custom play overlay and basic download hardening
+    (function(){
+      var cards = document.querySelectorAll('.ev-card');
+      cards.forEach(function(card){
+        var video = card.querySelector('video');
+        var btn = card.querySelector('.play-btn');
+        // Ensure browser hides download option where supported
+        try { video.controlsList = 'nodownload'; } catch(e){}
+        // Prevent context menu on video and card
+        video.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+        card.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+
+        if (btn) {
+          // Play/pause toggle
+          btn.addEventListener('click', function(e){
+            e.stopPropagation();
+            if (video.paused) {
+              video.play();
+              btn.classList.add('playing');
+            } else {
+              video.pause();
+              btn.classList.remove('playing');
+            }
+          });
+
+          // Sync button state with video
+          video.addEventListener('play', function(){ btn.classList.add('playing'); });
+          video.addEventListener('pause', function(){ btn.classList.remove('playing'); });
+
+          // Single click the video toggles play too
+          video.addEventListener('click', function(){
+            if (video.paused) video.play(); else video.pause();
+          });
+
+          // Double-click to fullscreen
+          card.addEventListener('dblclick', function(){
+            if (video.requestFullscreen) video.requestFullscreen();
+          });
+        } else {
+          // Autoplay / loop videos: try to start playback and ensure muted
+          try { video.muted = true; video.play().catch(function(){}); } catch(e){}
+          // Allow fullscreen on double-click
+          card.addEventListener('dblclick', function(){ if (video.requestFullscreen) video.requestFullscreen(); });
+        }
+      });
+    })();
   </script>
 </body>
 
