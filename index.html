@@ -209,7 +209,7 @@
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 4px;
-      color: rgba(255, 255, 255, .9);
+      color: #000;
       text-transform: uppercase;
       margin-bottom: 18px;
       text-shadow: 0 2px 12px rgba(0, 0, 0, .9);
@@ -312,7 +312,9 @@
 ═══════════════════════════════════ */
     #partner {
       width: 100%;
-      background: var(--darker);
+      background:
+        linear-gradient(rgba(10, 10, 10, .38), rgba(10, 10, 10, .38)),
+        url("file:///C:/Users/gkaru/Downloads/img.png") center/cover no-repeat;
       padding: 28px 20px;
       display: flex;
       flex-direction: column;
@@ -338,7 +340,8 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px;
       letter-spacing: 2.5px;
-      color: var(--muted);
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .95);
       text-transform: uppercase;
       text-align: center;
     }
@@ -481,13 +484,14 @@
       min-width: 48px;
       height: 48px;
       width: 48px;
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid rgba(255, 255, 255, .05);
+      background: linear-gradient(135deg, rgba(200, 240, 70, .18), rgba(255, 255, 255, .05));
+      border: 1px solid rgba(200, 240, 70, .28);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      color: var(--lime);
+      box-shadow: 0 0 18px rgba(200, 240, 70, .12);
     }
 
     .f-title {
@@ -1768,12 +1772,13 @@
 
     <!-- HERO -->
     <section id="hero">
-      <video class="hero-video" autoplay muted loop playsinline preload="auto">
-        <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1778958056/VN20260517_002338_ehpixb.mp4"
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+        poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png">
+        <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779793121/BANNER_z49d9x.mp4"
           type="video/mp4">
       </video>
       <div class="hero-body">
-        <div class="eyebrow">HYDERABAD <span>·</span> EST. 2026 <span>·</span> EVERY SUNDAY 6AM</div>
+        <div class="eyebrow">HYDERABAD <span>·</span> EST. 31 <span>·</span> EVERY SUNDAY 6AM</div>
         <div class="h1">SWEAT.<span class="ac">SMILE.</span><br>SOCIALIZE.</div>
         <div class="cta-row">
           <div class="tagline">It starts with a run. It becomes an experience.</div>
@@ -1864,7 +1869,9 @@
         </div>
         <div class="feat-list">
           <div class="feat">
-            <div class="f-icon">🏃</div>
+            <div class="f-icon" aria-hidden="true">
+              🏃
+            </div>
             <div>
               <div class="f-title">Group Running</div>
               <div class="f-desc">Fun and energetic runs designed for all fitness levels. Run together, stay motivated,
@@ -1872,7 +1879,9 @@
             </div>
           </div>
           <div class="feat">
-            <div class="f-icon">🎵</div>
+            <div class="f-icon" aria-hidden="true">
+              🎵
+            </div>
             <div>
               <div class="f-title">Music &amp; Vibes</div>
               <div class="f-desc">Music-powered sessions that boost energy, mood, and the overall experience of every
@@ -1880,7 +1889,9 @@
             </div>
           </div>
           <div class="feat">
-            <div class="f-icon">☕</div>
+            <div class="f-icon" aria-hidden="true">
+              ☕
+            </div>
             <div>
               <div class="f-title">Post-Run Culture</div>
               <div class="f-desc">Wind down at partner cafés, build friendships, and make Sunday mornings the best part
@@ -1926,7 +1937,7 @@
         <div class="badge">
           <div class="dot"></div><span>THIS SUNDAY</span>
         </div>
-        <div class="ev-date">24</div>
+        <div class="ev-date">31</div>
         <div class="ev-my"><span>MAY</span><span>2026</span></div>
         <div class="ev-details">
           <div class="ev-row"><span class="k">START TIME</span><span class="v">06:00 AM</span></div>
@@ -1939,42 +1950,43 @@
       </div>
       <div class="ev-right">
         <div class="ne-lbl">
-          <div class="ln"></div><span>NEXT EVENT</span>
+          <div class="ln"></div><span>LAST EVENT</span>
         </div>
-        <div class="wc-h">WHAT'S<br>COMING</div>
+        <div class="wc-h">MILESTONE<br>MOMENTS</div>
         <div class="ev-feats">
           <div class="ef">
             <div class="ef-dot"></div>
             <div>
-              <div class="ef-title">ELEVATE YOUR SUNDAYS</div>
-              <div class="ef-desc">Start your week with energy, fitness, and a community that keeps you accountable.
+              <div class="ef-title">HIGHLIGHT REEL</div>
+              <div class="ef-desc">A quick look back at the best moments from our latest run morning.
               </div>
             </div>
           </div>
           <div class="ef">
             <div class="ef-dot"></div>
             <div>
-              <div class="ef-title">START TIME</div>
-              <div class="ef-desc">Join us at 6:00 AM for a refreshing and energetic start to your Sunday.</div>
+              <div class="ef-title">RACE DAY ENERGY</div>
+              <div class="ef-desc">The pace, the smiles, and the crowd that made the morning feel bigger than the run.</div>
             </div>
           </div>
           <div class="ef">
             <div class="ef-dot"></div>
             <div>
-              <div class="ef-title">LOCATION</div>
-              <div class="ef-desc">Hyderabad's best routes — Panama Arch, Vanasthalipuram, Hyderabad and beyond.</div>
+              <div class="ef-title">POST-RUN SCENES</div>
+              <div class="ef-desc">Coffee, conversations, and the kind of moments that deserve a full gallery.
+              </div>
             </div>
           </div>
           <div class="ef">
             <div class="ef-dot"></div>
             <div>
-              <div class="ef-title">ABOUT THE COMMUNITY</div>
-              <div class="ef-desc">Connect with passionate runners and experience the energy of Hyderabad's most vibrant
-                run club.</div>
+              <div class="ef-title">MORE TO SEE</div>
+              <div class="ef-desc">We’ll add the full last-event gallery here so you can relive the complete vibe.
+              </div>
             </div>
           </div>
         </div>
-        <a href="#register" class="btn-lb">REGISTER NOW</a>
+        <div class="btn-lb">GALLERY COMING SOON</div>
       </div>
     </section>
 
