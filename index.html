@@ -320,21 +320,20 @@
 ═══════════════════════════════════ */
     #partner {
       width: 100%;
-      background:
-        linear-gradient(rgba(10, 10, 10, .38), rgba(10, 10, 10, .38)),
-        url("https://res.cloudinary.com/dwliwdslo/image/upload/v1779795611/img_rqkv1u.png") center/cover no-repeat;
-      padding: 28px 20px;
+      background: var(--darker);
+      padding: 32px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 20px;
     }
 
     .p-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      justify-content: center
+      justify-content: center;
+      width: 100%;
     }
 
     .p-line {
@@ -354,13 +353,50 @@
       text-align: center;
     }
 
-    .mk-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #333;
-      box-shadow: 0 0 30px rgba(80, 80, 200, .25);
+    .partner-banner-container {
+      width: 100%;
+      max-width: 800px;
+      padding: 0 10px;
+    }
+
+    .partner-banner {
+      width: 100%;
+      height: 220px;
+      background: url("https://res.cloudinary.com/dwliwdslo/image/upload/v1780428880/belleso_bg_wohp7f.jpg") center/cover no-repeat;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .partner-banner:hover {
+      transform: scale(1.01);
+      box-shadow: 0 12px 35px rgba(200, 240, 70, 0.12);
+      border-color: rgba(200, 240, 70, 0.2);
+    }
+
+    .partner-footer {
+      text-align: center;
+    }
+
+    .p-lbl-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--lime);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    @media (min-width: 768px) {
+      .partner-banner {
+        height: 380px;
+      }
+      .p-lbl-name {
+        font-size: 24px;
+        letter-spacing: 3px;
+      }
     }
 
     /* ═══════════════════════════════════
@@ -1543,9 +1579,7 @@
       }
 
       #partner {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 36px 40px
+        padding: 36px 40px;
       }
 
       .about-body {
@@ -1715,9 +1749,7 @@
       }
 
       #partner {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 44px 60px
+        padding: 44px 60px;
       }
 
       #about {
@@ -1901,14 +1933,15 @@
       <div class="p-row">
         <div class="p-line"></div>
         <div class="p-lbl">OFFICIAL CafePARTNER</div>
-        <div class="p-line" style="display:none"></div>
-      </div>
-      <img src="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001497/mana_katha_logo_hkfwoc.jpg"
-        alt="Mana Katha Coffee" class="mk-logo">
-      <div class="p-row">
-        <div class="p-line" style="display:none"></div>
-        <div class="p-lbl">MANA KATHA · HYDERABAD</div>
         <div class="p-line"></div>
+      </div>
+      
+      <div class="partner-banner-container">
+        <div class="partner-banner"></div>
+      </div>
+      
+      <div class="partner-footer">
+        <div class="p-lbl-name">Belloso Cafe | Uppal</div>
       </div>
     </section>
 
@@ -2043,14 +2076,13 @@
         <div class="badge">
           <div class="dot"></div><span>THIS SUNDAY</span>
         </div>
-        <div class="ev-date">31</div>
-        <div class="ev-my"><span>MAY</span><span>2026</span></div>
+        <div class="ev-date">07</div>
+        <div class="ev-my"><span>JUNE</span><span>2026</span></div>
         <div class="ev-details">
           <div class="ev-row"><span class="k">START TIME</span><span class="v">06:00 AM</span></div>
-          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">Panama Arch, beside Bata,
-              Vanasthalipuram, Hyderabad</span></div>
+          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">Belloso Cafe, Uppal, Hyderabad</span></div>
           <div class="ev-row"><span class="k">DISTANCE</span><span class="v">3 KM — All paces welcome</span></div>
-          <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">Mana Katha Cafe, Vanasthalipuram</span>
+          <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">Belloso Cafe, Uppal</span>
           </div>
         </div>
       </div>
