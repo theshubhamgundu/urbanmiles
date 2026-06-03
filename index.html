@@ -362,7 +362,7 @@
     .partner-banner {
       width: 100%;
       height: 220px;
-      background: url("https://res.cloudinary.com/dwliwdslo/image/upload/v1780428880/belleso_bg_wohp7f.jpg") center/cover no-repeat;
+      background: url("https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg") center/cover no-repeat;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -624,31 +624,80 @@
       text-align: center;
     }
 
-    @media (max-width: 900px) {
-      .ev-videos { flex-wrap: wrap; }
-      .ev-card { width: calc(50% - 6px); }
-    }
-
-    @media (max-width: 640px) {
-      .ev-card { width: 100%; max-width: 100%; }
-      .ev-card .ev-thumb { aspect-ratio: 9 / 16; }
-    }
-
-    /* Ensure gallery shows cards side-by-side; allow horizontal scroll on narrow viewports */
+    /* 2-Column Vertical Scrolling Gallery */
     .ev-gallery {
-      display: flex;
-      gap: 12px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      height: 480px;
+      overflow: hidden;
+      position: relative;
+      mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
     }
 
-    .ev-gallery .ev-card {
-      flex: 0 0 auto;
-      width: 48%;
-      min-width: 220px;
+    .ev-col {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
     }
+
+    .ev-track {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ev-col-up .ev-track {
+      animation: scroll-up 16s linear infinite;
+    }
+
+    .ev-col-down .ev-track {
+      animation: scroll-down 16s linear infinite;
+    }
+
+    /* Pause scrolling on hover of the entire gallery container */
+    .ev-gallery:hover .ev-track {
+      animation-play-state: paused;
+    }
+
+    .ev-card {
+      position: relative;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .ev-card .ev-thumb {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+    }
+
+    @keyframes scroll-up {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-50%);
+      }
+    }
+
+    @keyframes scroll-down {
+      0% {
+        transform: translateY(-50%);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .ev-gallery {
+        height: 620px;
+      }
     }
 
     /* ═══════════════════════════════════
@@ -2092,18 +2141,84 @@
           </div>
           <div class="wc-h">MILESTONE<br>MOMENTS</div>
         <div class="ev-gallery">
-          <div class="ev-card">
-            <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779795611/img_rqkv1u.png" oncontextmenu="return false">
-              <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
-            </video>
-            
+          <!-- Column 1 (Scrolls Up) -->
+          <div class="ev-col ev-col-up">
+            <div class="ev-track">
+              <!-- Video 1 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Video 2 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Video 3 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Duplicates for seamless loop -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
           </div>
 
-          <div class="ev-card">
-            <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779795611/img_rqkv1u.png" oncontextmenu="return false">
-              <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
-            </video>
-            
+          <!-- Column 2 (Scrolls Down) -->
+          <div class="ev-col ev-col-down">
+            <div class="ev-track">
+              <!-- Video 4 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Video 5 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Video 6 -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
+                </video>
+              </div>
+              <!-- Duplicates for seamless loop -->
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="ev-card">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       </div>
