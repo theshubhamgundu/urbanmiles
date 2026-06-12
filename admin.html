@@ -338,7 +338,7 @@
     // ══════════════════════════════════════
     //  CONFIG — Same URL as your form
     // ══════════════════════════════════════
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFyY-4H3J01hSEZhqyj7L8aQxa8aUwfCRzAXxZc5Kwanfszg_FWEJQpIc44jR5-d7_/exec';
+    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSfLBW4xKJib4UploAKdw4az4h_CA_s68EQFAa2tDiGwEldbXjGGKHpAV8QeUl_kEP/exec';
 
     var allRows = [];
     var lastFetch = null;
@@ -442,12 +442,15 @@
       var phoneK = keys.find(function(k){ return /phone/i.test(k); }) || keys[1];
       var emailK = keys.find(function(k){ return /email/i.test(k); }) || keys[2];
       var utrK = keys.find(function(k){ return /utr/i.test(k); }) || keys[3];
+      var dietK = keys.find(function(k){ return /diet|food|meal|veg/i.test(k); });
       var feedK = keys.find(function(k){ return /feedback/i.test(k); });
       var tsK = keys.find(function(k){ return /time|date|stamp/i.test(k); });
       var fileK = keys.find(function(k){ return /file|screenshot|image|url/i.test(k); });
 
       var html = '<table><thead><tr>';
-      html += '<th>#</th><th>NAME</th><th>PHONE</th><th>EMAIL</th><th>UTR</th>';
+      html += '<th>#</th><th>NAME</th><th>PHONE</th><th>EMAIL</th>';
+      if (dietK) html += '<th>DIET</th>';
+      html += '<th>UTR</th>';
       if (feedK) html += '<th>FEEDBACK</th>';
       if (tsK) html += '<th>TIME</th>';
       if (fileK) html += '<th>PROOF</th>';
@@ -459,6 +462,7 @@
         html += '<td>' + esc(r[nameK]) + '</td>';
         html += '<td>' + esc(r[phoneK]) + '</td>';
         html += '<td class="muted-val">' + esc(r[emailK]) + '</td>';
+        if (dietK) html += '<td>' + esc(r[dietK] || '—') + '</td>';
         html += '<td class="mono">' + esc(r[utrK]) + '</td>';
         if (feedK) html += '<td class="muted-val">' + esc(r[feedK] || '—') + '</td>';
         if (tsK) {

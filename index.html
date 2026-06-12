@@ -1188,6 +1188,81 @@
       min-height: 80px;
     }
 
+    /* Diet Preference Custom Radio Cards */
+    .diet-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .diet-option-label {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .diet-option-label input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .diet-card {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      padding: 14px 10px;
+      text-align: center;
+      transition: all .2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .diet-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .diet-option-label input[type="radio"]:checked + .diet-card {
+      border-color: var(--lime);
+      background: rgba(200, 240, 70, .06);
+      box-shadow: 0 0 12px rgba(200, 240, 70, .15);
+    }
+
+    .diet-card .diet-icon {
+      font-size: 20px;
+    }
+
+    .diet-card .diet-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .diet-option-label input[type="radio"]:checked + .diet-card .diet-name {
+      color: var(--lime);
+    }
+
+    @media (max-width: 480px) {
+      .diet-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .diet-card {
+        flex-direction: row;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px;
+      }
+    }
+
     /* Payment QR section */
     .pay-section {
       background: rgba(255, 255, 255, .03);
@@ -2265,6 +2340,34 @@
           <input type="email" id="regEmail" placeholder="you@example.com" required>
         </div>
 
+        <!-- Diet Preference -->
+        <div class="form-group">
+          <label>DIET PREFERENCE <span class="req">*</span></label>
+          <div class="diet-options">
+            <label class="diet-option-label">
+              <input type="radio" name="diet" value="Veg" required>
+              <div class="diet-card">
+                <span class="diet-icon">🟢</span>
+                <span class="diet-name">Veg</span>
+              </div>
+            </label>
+            <label class="diet-option-label">
+              <input type="radio" name="diet" value="Non-Veg" required>
+              <div class="diet-card">
+                <span class="diet-icon">🔴</span>
+                <span class="diet-name">Non-Veg</span>
+              </div>
+            </label>
+            <label class="diet-option-label">
+              <input type="radio" name="diet" value="Oatmeal" required>
+              <div class="diet-card">
+                <span class="diet-icon">🥣</span>
+                <span class="diet-name">Oatmeal</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <!-- Payment QR -->
         <div class="pay-section">
           <div class="pay-title">SCAN TO PAY ₹299</div>
@@ -2442,7 +2545,7 @@
     ══════════════════════════════════ */
 
     // ── IMPORTANT: Replace this URL with your Google Apps Script Web App URL ──
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFyY-4H3J01hSEZhqyj7L8aQxa8aUwfCRzAXxZc5Kwanfszg_FWEJQpIc44jR5-d7_/exec';
+    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSfLBW4xKJib4UploAKdw4az4h_CA_s68EQFAa2tDiGwEldbXjGGKHpAV8QeUl_kEP/exec';
 
     var regForm = document.getElementById('regForm');
     var submitBtn = document.getElementById('submitBtn');
@@ -2523,11 +2626,13 @@
       var name = document.getElementById('regName').value.trim();
       var phone = document.getElementById('regPhone').value.trim();
       var email = document.getElementById('regEmail').value.trim();
+      var dietEl = document.querySelector('input[name="diet"]:checked');
+      var diet = dietEl ? dietEl.value : '';
       var utr = document.getElementById('regUTR').value.trim();
       var feedback = document.getElementById('regFeedback').value.trim();
 
       // Validate
-      if (!name || !phone || !email || !utr) {
+      if (!name || !phone || !email || !diet || !utr) {
         alert('Please fill in all required fields.');
         return;
       }
@@ -2550,6 +2655,7 @@
           name: name,
           phone: phone,
           email: email,
+          diet: diet,
           utr: utr,
           feedback: feedback,
           fileName: selectedFile.name,
