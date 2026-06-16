@@ -362,7 +362,7 @@
     .partner-banner {
       width: 100%;
       height: 220px;
-      background: url("partner_bg.jpeg") center/cover no-repeat;
+      background: url("cosmos-banner.jpeg") center/cover no-repeat;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -2034,9 +2034,9 @@
 
     <!-- HERO -->
     <section id="hero">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata"
-        poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1779001521/um_bg_rev_jmuf9x.png">
-        <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779793121/BANNER_z49d9x.mp4"
+      <video class="hero-video" autoplay muted loop playsinline preload="auto"
+        poster="https://res.cloudinary.com/dwliwdslo/image/upload/f_auto,q_auto/v1779001521/um_bg_rev_jmuf9x.png">
+        <source src="https://res.cloudinary.com/dwliwdslo/video/upload/f_auto,q_auto/v1779793121/BANNER_z49d9x.mp4"
           type="video/mp4">
       </video>
       <div class="hero-body">
@@ -2065,7 +2065,7 @@
       </div>
       
       <div class="partner-footer">
-        <div class="p-lbl-name">HMDA Layout | Nagole</div>
+        <div class="p-lbl-name">cosmos cafe & Gaming Kothapet</div>
       </div>
     </section>
 
@@ -2200,13 +2200,13 @@
         <div class="badge">
           <div class="dot"></div><span>THIS SUNDAY</span>
         </div>
-        <div class="ev-date">14</div>
+        <div class="ev-date">21</div>
         <div class="ev-my"><span>JUNE</span><span>2026</span></div>
         <div class="ev-details">
           <div class="ev-row"><span class="k">START TIME</span><span class="v">06:00 AM</span></div>
-          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">HMDA Layout, Nagole, Hyderabad</span></div>
+          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">cosmos cafe & Gaming Kothapet</span></div>
           <div class="ev-row"><span class="k">DISTANCE</span><span class="v">3 KM — All paces welcome</span></div>
-          <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">HMDA Layout, Nagole</span>
+          <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">cosmos cafe & Gaming Kothapet</span>
           </div>
         </div>
       </div>
@@ -2340,33 +2340,6 @@
           <input type="email" id="regEmail" placeholder="you@example.com" required>
         </div>
 
-        <!-- Diet Preference -->
-        <div class="form-group">
-          <label>DIET PREFERENCE <span class="req">*</span></label>
-          <div class="diet-options">
-            <label class="diet-option-label">
-              <input type="radio" name="diet" value="Veg" required>
-              <div class="diet-card">
-                <span class="diet-icon">🟢</span>
-                <span class="diet-name">Veg</span>
-              </div>
-            </label>
-            <label class="diet-option-label">
-              <input type="radio" name="diet" value="Non-Veg" required>
-              <div class="diet-card">
-                <span class="diet-icon">🔴</span>
-                <span class="diet-name">Non-Veg</span>
-              </div>
-            </label>
-            <label class="diet-option-label">
-              <input type="radio" name="diet" value="Oatmeal" required>
-              <div class="diet-card">
-                <span class="diet-icon">🥣</span>
-                <span class="diet-name">Oatmeal</span>
-              </div>
-            </label>
-          </div>
-        </div>
 
         <!-- Payment QR -->
         <div class="pay-section">
@@ -2545,7 +2518,7 @@
     ══════════════════════════════════ */
 
     // ── IMPORTANT: Replace this URL with your Google Apps Script Web App URL ──
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSfLBW4xKJib4UploAKdw4az4h_CA_s68EQFAa2tDiGwEldbXjGGKHpAV8QeUl_kEP/exec';
+    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0lIXzhEeMtf6ScbGtBlwj-lTGOEdfCnTTFOwoq_UtQvNsTYc5-GYdUcws6WhIxEQA/exec';
 
     var regForm = document.getElementById('regForm');
     var submitBtn = document.getElementById('submitBtn');
@@ -2626,13 +2599,11 @@
       var name = document.getElementById('regName').value.trim();
       var phone = document.getElementById('regPhone').value.trim();
       var email = document.getElementById('regEmail').value.trim();
-      var dietEl = document.querySelector('input[name="diet"]:checked');
-      var diet = dietEl ? dietEl.value : '';
       var utr = document.getElementById('regUTR').value.trim();
       var feedback = document.getElementById('regFeedback').value.trim();
 
       // Validate
-      if (!name || !phone || !email || !diet || !utr) {
+      if (!name || !phone || !email || !utr) {
         alert('Please fill in all required fields.');
         return;
       }
@@ -2655,7 +2626,6 @@
           name: name,
           phone: phone,
           email: email,
-          diet: diet,
           utr: utr,
           feedback: feedback,
           fileName: selectedFile.name,
