@@ -393,6 +393,7 @@
       .partner-banner {
         height: 380px;
       }
+
       .p-lbl-name {
         font-size: 24px;
         letter-spacing: 3px;
@@ -567,7 +568,7 @@
       max-width: 320px;
       border-radius: 8px;
       background: #000;
-      box-shadow: 0 8px 22px rgba(0,0,0,.45);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
       display: block;
     }
 
@@ -603,24 +604,29 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: rgba(0,0,0,.45);
+      background: rgba(0, 0, 0, .45);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: background .18s ease, transform .12s ease;
-      box-shadow: 0 6px 18px rgba(0,0,0,.45);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
     }
 
-    .play-btn svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+    .play-btn svg {
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .5));
+    }
 
-    .play-btn.playing { background: rgba(0,0,0,.18); transform: translate(-50%, -50%) scale(.98); }
+    .play-btn.playing {
+      background: rgba(0, 0, 0, .18);
+      transform: translate(-50%, -50%) scale(.98);
+    }
 
     .ev-caption {
       margin-top: 8px;
       font-size: 12px;
-      color: rgba(255,255,255,.9);
+      color: rgba(255, 255, 255, .9);
       text-align: center;
     }
 
@@ -680,6 +686,7 @@
       0% {
         transform: translateY(0);
       }
+
       100% {
         transform: translateY(-50%);
       }
@@ -689,6 +696,7 @@
       0% {
         transform: translateY(-50%);
       }
+
       100% {
         transform: translateY(0);
       }
@@ -1227,7 +1235,7 @@
       background: rgba(255, 255, 255, .06);
     }
 
-    .diet-option-label input[type="radio"]:checked + .diet-card {
+    .diet-option-label input[type="radio"]:checked+.diet-card {
       border-color: var(--lime);
       background: rgba(200, 240, 70, .06);
       box-shadow: 0 0 12px rgba(200, 240, 70, .15);
@@ -1246,7 +1254,7 @@
       color: rgba(255, 255, 255, .7);
     }
 
-    .diet-option-label input[type="radio"]:checked + .diet-card .diet-name {
+    .diet-option-label input[type="radio"]:checked+.diet-card .diet-name {
       color: var(--lime);
     }
 
@@ -1255,6 +1263,7 @@
         grid-template-columns: 1fr;
         gap: 10px;
       }
+
       .diet-card {
         flex-direction: row;
         justify-content: center;
@@ -2059,11 +2068,11 @@
         <div class="p-lbl">Location PARTNER</div>
         <div class="p-line"></div>
       </div>
-      
+
       <div class="partner-banner-container">
         <div class="partner-banner"></div>
       </div>
-      
+
       <div class="partner-footer">
         <div class="p-lbl-name">cosmos cafe & Gaming Kothapet</div>
       </div>
@@ -2200,11 +2209,12 @@
         <div class="badge">
           <div class="dot"></div><span>THIS SUNDAY</span>
         </div>
-        <div class="ev-date">21</div>
+        <div class="ev-date">28</div>
         <div class="ev-my"><span>JUNE</span><span>2026</span></div>
         <div class="ev-details">
           <div class="ev-row"><span class="k">START TIME</span><span class="v">06:00 AM</span></div>
-          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">cosmos cafe & Gaming Kothapet</span></div>
+          <div class="ev-row"><span class="k">MEETING POINT</span><span class="v">cosmos cafe & Gaming Kothapet</span>
+          </div>
           <div class="ev-row"><span class="k">DISTANCE</span><span class="v">3 KM — All paces welcome</span></div>
           <div class="ev-row"><span class="k">AFTER-RUN</span><span class="v">cosmos cafe & Gaming Kothapet</span>
           </div>
@@ -2212,45 +2222,63 @@
       </div>
       <div class="ev-right">
         <div class="ne-lbl">
-            <div class="ln"></div><span>EVENT HIGHLIGHTS</span>
-          </div>
-          <div class="wc-h">MILESTONE<br>MOMENTS</div>
+          <div class="ln"></div><span>EVENT HIGHLIGHTS</span>
+        </div>
+        <div class="wc-h">MILESTONE<br>MOMENTS</div>
         <div class="ev-gallery">
           <!-- Column 1 (Scrolls Up) -->
           <div class="ev-col ev-col-up">
             <div class="ev-track">
               <!-- Video 1 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Video 2 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Video 3 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Duplicates for seamless loop -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504748/1_djyq5h.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/2_sqfaui.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504741/3_vpxety.mp4"
+                    type="video/mp4">
                 </video>
               </div>
             </div>
@@ -2261,36 +2289,54 @@
             <div class="ev-track">
               <!-- Video 4 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Video 5 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Video 6 -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <!-- Duplicates for seamless loop -->
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1780504742/4_tq0ib6.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_1_bi2soo.mp4"
+                    type="video/mp4">
                 </video>
               </div>
               <div class="ev-card">
-                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg" oncontextmenu="return false">
-                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4" type="video/mp4">
+                <video class="ev-thumb" autoplay muted loop playsinline preload="metadata"
+                  poster="https://res.cloudinary.com/dwliwdslo/image/upload/v1780503951/belleso_bg_g1y4lp.jpg"
+                  oncontextmenu="return false">
+                  <source src="https://res.cloudinary.com/dwliwdslo/video/upload/v1779802345/vid_2_og4dyn.mp4"
+                    type="video/mp4">
                 </video>
               </div>
             </div>
@@ -2345,11 +2391,15 @@
         <div class="pay-section">
           <div class="pay-title">SCAN TO PAY ₹299</div>
           <!-- QR Code Container -->
-          <div id="qrContainer" style="width: 180px; height: 180px; margin: 0 auto 12px; background: #fff; border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <div id="qrContainer"
+            style="width: 180px; height: 180px; margin: 0 auto 12px; background: #fff; border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
             <img src="payment.jpeg" alt="UPI Payment QR Code" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
-          <div class="pay-note">Scan the QR code above with any UPI app or click the button below to complete payment of ₹299.<br>Then enter the UTR number and upload a screenshot.</div>
-          <button type="button" id="upiPayBtn" style="margin-top: 16px; padding: 12px 24px; background: linear-gradient(135deg, #4C63D2 0%, #2D3E8F 100%); color: #fff; border: none; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: transform .2s; width: 100%;">💳 PAY WITH UPI</button>
+          <div class="pay-note">Scan the QR code above with any UPI app or click the button below to complete payment of
+            ₹299.<br>Then enter the UTR number and upload a screenshot.</div>
+          <button type="button" id="upiPayBtn"
+            style="margin-top: 16px; padding: 12px 24px; background: linear-gradient(135deg, #4C63D2 0%, #2D3E8F 100%); color: #fff; border: none; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: transform .2s; width: 100%;">💳
+            PAY WITH UPI</button>
         </div>
 
         <!-- UTR -->
@@ -2503,7 +2553,7 @@
       document.body.removeChild(upiLink);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var upiPayBtn = document.getElementById('upiPayBtn');
       if (upiPayBtn) {
         upiPayBtn.addEventListener('click', function (e) {
@@ -2668,20 +2718,20 @@
     });
 
     // Video gallery: custom play overlay and basic download hardening
-    (function(){
+    (function () {
       var cards = document.querySelectorAll('.ev-card');
-      cards.forEach(function(card){
+      cards.forEach(function (card) {
         var video = card.querySelector('video');
         var btn = card.querySelector('.play-btn');
         // Ensure browser hides download option where supported
-        try { video.controlsList = 'nodownload'; } catch(e){}
+        try { video.controlsList = 'nodownload'; } catch (e) { }
         // Prevent context menu on video and card
-        video.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-        card.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+        video.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+        card.addEventListener('contextmenu', function (e) { e.preventDefault(); });
 
         if (btn) {
           // Play/pause toggle
-          btn.addEventListener('click', function(e){
+          btn.addEventListener('click', function (e) {
             e.stopPropagation();
             if (video.paused) {
               video.play();
@@ -2693,23 +2743,23 @@
           });
 
           // Sync button state with video
-          video.addEventListener('play', function(){ btn.classList.add('playing'); });
-          video.addEventListener('pause', function(){ btn.classList.remove('playing'); });
+          video.addEventListener('play', function () { btn.classList.add('playing'); });
+          video.addEventListener('pause', function () { btn.classList.remove('playing'); });
 
           // Single click the video toggles play too
-          video.addEventListener('click', function(){
+          video.addEventListener('click', function () {
             if (video.paused) video.play(); else video.pause();
           });
 
           // Double-click to fullscreen
-          card.addEventListener('dblclick', function(){
+          card.addEventListener('dblclick', function () {
             if (video.requestFullscreen) video.requestFullscreen();
           });
         } else {
           // Autoplay / loop videos: try to start playback and ensure muted
-          try { video.muted = true; video.play().catch(function(){}); } catch(e){}
+          try { video.muted = true; video.play().catch(function () { }); } catch (e) { }
           // Allow fullscreen on double-click
-          card.addEventListener('dblclick', function(){ if (video.requestFullscreen) video.requestFullscreen(); });
+          card.addEventListener('dblclick', function () { if (video.requestFullscreen) video.requestFullscreen(); });
         }
       });
     })();
