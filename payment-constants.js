@@ -1,6 +1,6 @@
 // Payment Constants
 const PAYMENT = {
-  UPI_ID: '9063939760@ptsbi',
+  UPI_ID: '8309140165@ibl',
   AMOUNT: '299',
   MERCHANT_NAME: 'Urban Miles',
   QR_CODE_IMAGE: 'payment-qr.png', // Static QR code image
